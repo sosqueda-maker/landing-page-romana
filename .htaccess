@@ -1,12 +1,20 @@
 
 <IfModule mod_mime.c>
+  # Força o servidor a tratar .ts e .tsx como javascript para o Babel poder ler
   AddType application/javascript .ts
   AddType application/javascript .tsx
+  AddType application/javascript .js
 </IfModule>
 
-# Opcional: Garante que o navegador não faça cache agressivo dos módulos durante atualizações
-<FilesMatch "\.(tsx|ts|js)$">
-  Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
-  Header set Pragma "no-cache"
-  Header set Expires "Wed, 11 Jan 1984 05:00:00 GMT"
-</FilesMatch>
+<IfModule mod_headers.c>
+  # Permite que o Babel faça o fetch dos arquivos .tsx sem bloqueio de CORS
+  Header set Access-Control-Allow-Origin "*"
+  
+  # Desativa cache temporariamente para garantir que as correções subam na hora
+  <FilesMatch "\.(tsx|ts|js|html)$">
+    Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
+  </FilesMatch>
+</IfModule>
+
+# Garante que rotas inexistentes não quebrem o carregamento
+DirectoryIndex index.html

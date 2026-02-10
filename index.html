@@ -5,78 +5,74 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Romana Studio de Beleza – Especialista em Mega Hair em Brasília</title>
-    <meta name="description" content="A melhor em colocação de mega hair de Brasília e região. Especialista em mechas, estética e cuidados completos para sua beleza em Águas Claras." />
+    
+    <!-- Scripts de Estilo -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <!-- Transpilador Babel Standalone -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
     <script>
-      // Global error handler para depuração em produção
-      window.onerror = function(msg, url, line, col, error) {
-        console.error("Erro Detectado:", msg, "em", url, ":", line);
-        const root = document.getElementById('root');
-        if (root && (root.innerHTML === "" || root.innerHTML.includes('loading'))) {
-          root.innerHTML = `
-            <div style="padding: 40px; color: #8B5E5E; font-family: sans-serif; text-align: center; background: #FDF7F7; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-              <h1 style="font-size: 20px; font-weight: 900; text-transform: uppercase;">Erro de Carregamento</h1>
-              <p style="font-size: 14px; opacity: 0.7; max-width: 400px; margin: 10px 0;">${msg}</p>
-              <button onclick="location.reload()" style="margin-top: 20px; padding: 12px 24px; background: #8B5E5E; color: white; border: none; border-radius: 30px; cursor: pointer; font-weight: bold;">Recarregar Sistema</button>
-            </div>
-          `;
-        }
-        return false;
-      };
-      
       tailwind.config = {
         theme: {
           extend: {
-            fontFamily: {
-              sans: ['Poppins', 'sans-serif'],
-              montserrat: ['Montserrat', 'sans-serif'],
-            },
-            colors: {
-              vet: {
-                primary: '#8B5E5E',
-                primaryLight: '#A67C7D',
-                secondary: '#FFFFFF', 
-                accent: '#A67C7D',
-                text: '#4A2C2C',
-                light: '#FDF7F7',
-              }
-            },
-            borderRadius: {
-              '4xl': '2rem',
-              '5xl': '3rem',
-            }
+            fontFamily: { sans: ['Poppins', 'sans-serif'], montserrat: ['Montserrat', 'sans-serif'] },
+            colors: { vet: { primary: '#8B5E5E', accent: '#A67C7D', light: '#FDF7F7' } }
           }
         }
       }
+
+      window.onerror = function(msg, url, line) {
+        if (line === 0) return;
+        const root = document.getElementById('root');
+        if (root) {
+          root.innerHTML = `<div style="padding:40px;text-align:center;font-family:sans-serif;color:#8B5E5E;">
+            <h1 style="font-size:16px;font-weight:900;">ERRO DE SISTEMA</h1>
+            <p style="font-size:12px;opacity:0.7;">${msg}</p>
+            <button onclick="location.reload()" style="margin-top:20px;padding:10px 20px;background:#8B5E5E;color:white;border:none;border-radius:20px;cursor:pointer;">Tentar Novamente</button>
+          </div>`;
+        }
+      };
     </script>
+
     <style>
-      body { background-color: #FFFFFF; color: #4A2C2C; font-family: 'Poppins', sans-serif; scroll-behavior: smooth; overflow-x: hidden; }
-      .text-gradient-vet { background: linear-gradient(135deg, #8B5E5E 0%, #A67C7D 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-      .btn-primary { background: #8B5E5E; color: white; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-      .btn-primary:hover { background: #A67C7D; transform: translateY(-3px); box-shadow: 0 10px 25px -5px rgba(139, 94, 94, 0.3); }
-      .glass-header { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(166, 124, 125, 0.1); }
-      @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-15px); } }
-      .animate-float { animation: float 6s ease-in-out infinite; }
+      body { background-color: #FFFFFF; margin: 0; padding: 0; }
+      #splash { position: fixed; inset: 0; background: #FFF; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; transition: opacity 0.5s; }
+      .loader { width: 40px; height: 40px; border: 3px solid #F3F3F3; border-top: 3px solid #8B5E5E; border-radius: 50%; animation: spin 1s linear infinite; }
+      @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
+
+    <!-- Import Map CORRIGIDO: Todas as dependências de React apontam para a mesma URL base -->
     <script type="importmap">
-    {
-      "imports": {
-        "react": "https://esm.sh/react@19",
-        "react/": "https://esm.sh/react@19/",
-        "react-dom": "https://esm.sh/react-dom@19",
-        "react-dom/": "https://esm.sh/react-dom@19/",
-        "react-dom/client": "https://esm.sh/react-dom@19/client",
-        "lucide-react": "https://esm.sh/lucide-react@0.475.0?deps=react@19",
-        "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@2",
-        "jspdf": "https://esm.sh/jspdf@2.5.1",
-        "jspdf-autotable": "https://esm.sh/jspdf-autotable@3.8.2?deps=jspdf"
-      }
-    }
-    </script>
+{
+  "imports": {
+    "react": "https://esm.sh/react@19",
+    "react-dom": "https://esm.sh/react-dom@19",
+    "react-dom/client": "https://esm.sh/react-dom@19/client",
+    "lucide-react": "https://esm.sh/lucide-react@0.475.0?deps=react@19",
+    "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@2",
+    "jspdf": "https://esm.sh/jspdf@2.5.1",
+    "jspdf-autotable": "https://esm.sh/jspdf-autotable@3.8.2?deps=jspdf",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+    "react/": "https://esm.sh/react@^19.2.4/"
+  }
+}
+</script>
   </head>
   <body>
+    <div id="splash">
+      <div class="loader"></div>
+      <p style="margin-top:20px; font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 900; letter-spacing: 2px; color: #8B5E5E; text-transform: uppercase;">Iniciando Studio</p>
+    </div>
+
     <div id="root"></div>
-    <script type="module" src="./index.tsx"></script>
+    
+    <script 
+      type="text/babel" 
+      data-type="module" 
+      data-presets="react,typescript" 
+      src="index.tsx"
+    ></script>
   </body>
 </html>

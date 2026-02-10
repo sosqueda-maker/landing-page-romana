@@ -3,40 +3,62 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App';
 
-console.log("Romana Studio: Iniciando aplicação...");
+/**
+ * Romana Studio - Inicialização em Produção
+ * Transpilado via Babel Standalone.
+ * Corrigido para evitar conflitos de Singleton do React.
+ */
 
-const renderApp = () => {
-  const rootElement = document.getElementById('root');
-  if (!rootElement) return;
+const startApp = () => {
+  const container = document.getElementById('root');
+  const splash = document.getElementById('splash');
+
+  if (!container) return;
 
   try {
-    // Verificação de segurança para evitar erro de dispatcher nulo (useState)
-    if (!React || typeof React.useState !== 'function') {
-      throw new Error("Falha crítica: O Singleton do React não foi carregado corretamente.");
+    // No React 19 ESM, as vezes o default export é o próprio objeto React
+    const useStateAvailable = typeof React.useState === 'function';
+    
+    if (!useStateAvailable) {
+      console.error("React.useState não encontrado no objeto React importado.", React);
+      throw new Error("Falha ao carregar os hooks do React. Verifique o console.");
     }
 
-    const root = createRoot(rootElement);
+    const root = createRoot(container);
     root.render(
       <React.StrictMode>
         <App />
       </React.StrictMode>
     );
-    console.log("Romana Studio: Renderização concluída.");
-  } catch (err) {
-    console.error("Erro na renderização:", err);
-    rootElement.innerHTML = `
-      <div style="padding: 40px; color: #8B5E5E; text-align: center; font-family: sans-serif;">
-        <h1 style="font-size: 24px; margin-bottom: 10px;">Erro de Inicialização</h1>
-        <p style="opacity: 0.7;">O sistema não pôde ser iniciado devido a um conflito de bibliotecas.</p>
-        <pre style="background: #fdf7f7; padding: 15px; border-radius: 10px; margin-top: 20px; font-size: 11px; display: inline-block; text-align: left;">${err instanceof Error ? err.message : String(err)}</pre>
+
+    // Esconde o splash após a renderização inicial
+    if (splash) {
+      setTimeout(() => {
+        splash.style.opacity = '0';
+        setTimeout(() => splash.remove(), 500);
+      }, 500);
+    }
+    
+    console.log("Romana Studio: Aplicação iniciada.");
+  } catch (error) {
+    console.error("Erro na montagem da aplicação:", error);
+    if (splash) splash.remove();
+    container.innerHTML = `
+      <div style="padding: 40px; text-align: center; font-family: sans-serif; color: #8B5E5E;">
+        <h2 style="font-weight: 900;">ERRO DE INICIALIZAÇÃO</h2>
+        <p style="font-size: 13px; opacity: 0.7;">Não foi possível carregar a biblioteca React corretamente.</p>
+        <div style="margin-top: 20px; background: #f8f8f8; padding: 15px; border-radius: 10px; font-size: 11px; color: #333;">
+          ${error.message}
+        </div>
+        <button onclick="location.reload()" style="margin-top: 20px; padding: 10px 20px; background: #8B5E5E; color: white; border: none; border-radius: 20px; cursor: pointer; font-weight: bold;">Tentar Novamente</button>
       </div>
     `;
   }
 };
 
-// Executa a inicialização
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', renderApp);
+// Inicializa quando o DOM estiver pronto
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+  startApp();
 } else {
-  renderApp();
+  document.addEventListener('DOMContentLoaded', startApp);
 }
