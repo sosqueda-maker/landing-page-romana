@@ -9,12 +9,18 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script>
-      // Global error handler to help debug "blank white pages" in production
+      // Global error handler para depuração em produção
       window.onerror = function(msg, url, line, col, error) {
-        console.error("Global error:", msg, "at", url, ":", line);
+        console.error("Erro Detectado:", msg, "em", url, ":", line);
         const root = document.getElementById('root');
-        if (root && root.innerHTML === "") {
-          root.innerHTML = '<div style="padding: 20px; color: red; font-family: sans-serif; text-align: center;"><h1>Erro de Carregamento</h1><p>' + msg + '</p><small>' + url + ' L:' + line + '</small><br><button onclick="location.reload()" style="margin-top: 20px; padding: 10px 20px; background: #8B5E5E; color: white; border: none; border-radius: 5px; cursor: pointer;">Recarregar Página</button></div>';
+        if (root && (root.innerHTML === "" || root.innerHTML.includes('loading'))) {
+          root.innerHTML = `
+            <div style="padding: 40px; color: #8B5E5E; font-family: sans-serif; text-align: center; background: #FDF7F7; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+              <h1 style="font-size: 20px; font-weight: 900; text-transform: uppercase;">Erro de Carregamento</h1>
+              <p style="font-size: 14px; opacity: 0.7; max-width: 400px; margin: 10px 0;">${msg}</p>
+              <button onclick="location.reload()" style="margin-top: 20px; padding: 12px 24px; background: #8B5E5E; color: white; border: none; border-radius: 30px; cursor: pointer; font-weight: bold;">Recarregar Sistema</button>
+            </div>
+          `;
         }
         return false;
       };
@@ -28,12 +34,12 @@
             },
             colors: {
               vet: {
-                primary: '#8B5E5E', // Rose/Mauve da Logo
+                primary: '#8B5E5E',
                 primaryLight: '#A67C7D',
                 secondary: '#FFFFFF', 
-                accent: '#A67C7D', // Dusty Rose
-                text: '#4A2C2C', // Rose Brown Escuro para leitura
-                light: '#FDF7F7', // Nude Rosado Claríssimo
+                accent: '#A67C7D',
+                text: '#4A2C2C',
+                light: '#FDF7F7',
               }
             },
             borderRadius: {
@@ -45,86 +51,30 @@
       }
     </script>
     <style>
-      body {
-        background-color: #FFFFFF;
-        color: #4A2C2C;
-        font-family: 'Poppins', sans-serif;
-        scroll-behavior: smooth;
-        overflow-x: hidden;
-      }
-      
-      .text-gradient-vet {
-        background: linear-gradient(135deg, #8B5E5E 0%, #A67C7D 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-      }
-
-      .btn-primary {
-        background: #8B5E5E;
-        color: white;
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      }
-      .btn-primary:hover {
-        background: #A67C7D;
-        transform: translateY(-3px);
-        box-shadow: 0 10px 25px -5px rgba(139, 94, 94, 0.3);
-      }
-      
-      .hoverline {
-        position: relative;
-      }
-      .hoverline::after {
-        content: '';
-        position: absolute;
-        width: 0;
-        height: 3px;
-        bottom: -6px;
-        left: 0;
-        background-color: #A67C7D;
-        transition: width 0.3s ease;
-        border-radius: 2px;
-      }
-      .hoverline:hover::after {
-        width: 100%;
-      }
-
-      .glass-header {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(12px);
-        border-bottom: 1px solid rgba(166, 124, 125, 0.1);
-      }
-
-      .card-shadow {
-        box-shadow: 0 20px 50px rgba(139, 94, 94, 0.05);
-      }
-
-      ::-webkit-scrollbar { width: 6px; }
-      ::-webkit-scrollbar-track { background: #fdf7f7; }
-      ::-webkit-scrollbar-thumb { background: #A67C7D; border-radius: 10px; }
-      
-      @keyframes float {
-        0% { transform: translateY(0px); }
-        50% { transform: translateY(-15px); }
-        100% { transform: translateY(0px); }
-      }
+      body { background-color: #FFFFFF; color: #4A2C2C; font-family: 'Poppins', sans-serif; scroll-behavior: smooth; overflow-x: hidden; }
+      .text-gradient-vet { background: linear-gradient(135deg, #8B5E5E 0%, #A67C7D 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+      .btn-primary { background: #8B5E5E; color: white; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+      .btn-primary:hover { background: #A67C7D; transform: translateY(-3px); box-shadow: 0 10px 25px -5px rgba(139, 94, 94, 0.3); }
+      .glass-header { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(166, 124, 125, 0.1); }
+      @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-15px); } }
       .animate-float { animation: float 6s ease-in-out infinite; }
     </style>
-  <script type="importmap">
-{
-  "imports": {
-    "react": "https://esm.sh/react@19",
-    "react-dom": "https://esm.sh/react-dom@19",
-    "react-dom/client": "https://esm.sh/react-dom@19/client",
-    "lucide-react": "https://esm.sh/lucide-react@0.475.0?deps=react@19",
-    "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@2",
-    "jspdf": "https://esm.sh/jspdf@2.5.1",
-    "jspdf-autotable": "https://esm.sh/jspdf-autotable@3.8.2",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
-    "react/": "https://esm.sh/react@^19.2.4/"
-  }
-}
-</script>
-</head>
+    <script type="importmap">
+    {
+      "imports": {
+        "react": "https://esm.sh/react@19",
+        "react/": "https://esm.sh/react@19/",
+        "react-dom": "https://esm.sh/react-dom@19",
+        "react-dom/": "https://esm.sh/react-dom@19/",
+        "react-dom/client": "https://esm.sh/react-dom@19/client",
+        "lucide-react": "https://esm.sh/lucide-react@0.475.0?deps=react@19",
+        "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@2",
+        "jspdf": "https://esm.sh/jspdf@2.5.1",
+        "jspdf-autotable": "https://esm.sh/jspdf-autotable@3.8.2?deps=jspdf"
+      }
+    }
+    </script>
+  </head>
   <body>
     <div id="root"></div>
     <script type="module" src="./index.tsx"></script>

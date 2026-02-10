@@ -1,0 +1,12 @@
+
+<IfModule mod_mime.c>
+  AddType application/javascript .ts
+  AddType application/javascript .tsx
+</IfModule>
+
+# Opcional: Garante que o navegador não faça cache agressivo dos módulos durante atualizações
+<FilesMatch "\.(tsx|ts|js)$">
+  Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
+  Header set Pragma "no-cache"
+  Header set Expires "Wed, 11 Jan 1984 05:00:00 GMT"
+</FilesMatch>
