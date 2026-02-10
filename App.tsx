@@ -29,9 +29,14 @@ const App: React.FC = () => {
 
   useEffect(() => {
     const checkInitialSession = async () => {
-      const { data: { session: initialSession } } = await supabase.auth.getSession();
-      setSession(initialSession);
-      setIsAuthChecking(false);
+      try {
+        const { data: { session: initialSession } } = await supabase.auth.getSession();
+        setSession(initialSession);
+      } catch (err) {
+        console.error("Failed to check Supabase session:", err);
+      } finally {
+        setIsAuthChecking(false);
+      }
     };
     checkInitialSession();
 
