@@ -14,7 +14,7 @@ import AuthModal from './components/AuthModal';
 import Services, { MegaHairTypes } from './components/Services';
 import PromotionModal from './components/PromotionModal';
 import { supabase } from './supabase';
-import { Lock } from 'lucide-react';
+import { Lock, AlertCircle } from 'lucide-react';
 
 type View = 'landing' | 'admin';
 
@@ -26,14 +26,21 @@ const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<View>('landing');
   const [session, setSession] = useState<any>(null);
   const [isAuthChecking, setIsAuthChecking] = useState(true);
+  const [initError, setInitError] = useState<string | null>(null);
 
   useEffect(() => {
     const checkInitialSession = async () => {
       try {
-        const { data: { session: initialSession } } = await supabase.auth.getSession();
-        setSession(initialSession);
+        console.log("Checking Supabase session...");
+        const { data, error } = await supabase.auth.getSession();
+        if (error) {
+           console.warn("Supabase auth error during session check:", error);
+           // We don't throw here to allow the landing page to work even if Supabase is down
+        }
+        setSession(data?.session || null);
       } catch (err) {
-        console.error("Failed to check Supabase session:", err);
+        console.error("Critical error during initial session check:", err);
+        // We don't block the UI unless strictly necessary
       } finally {
         setIsAuthChecking(false);
       }
@@ -78,10 +85,24 @@ const App: React.FC = () => {
   const closeAuthModal = () => setIsAuthModalOpen(false);
   const closePromotionModal = () => setIsPromotionModalOpen(false);
 
+  if (initError) {
+    return (
+      <div className="min-h-screen bg-white flex flex-col items-center justify-center p-10 text-center">
+        <AlertCircle size={48} className="text-rose-500 mb-4" />
+        <h1 className="text-2xl font-black text-vet-primary uppercase">Ocorreu um problema</h1>
+        <p className="text-slate-500 mt-2">{initError}</p>
+        <button onClick={() => window.location.reload()} className="mt-6 btn-primary px-8 py-3 rounded-full">Recarregar</button>
+      </div>
+    );
+  }
+
   if (isAuthChecking) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="w-10 h-10 border-4 border-vet-primary border-t-transparent rounded-full animate-spin"></div>
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-10 h-10 border-4 border-vet-primary border-t-transparent rounded-full animate-spin"></div>
+          <p className="text-[10px] font-black uppercase tracking-widest text-slate-300">Carregando Studio...</p>
+        </div>
       </div>
     );
   }
