@@ -1,0 +1,119 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Romana Studio de Beleza – Especialista em Mega Hair em Brasília</title>
+    <meta name="description" content="A melhor em colocação de mega hair de Brasília e região. Especialista em mechas, estética e cuidados completos para sua beleza em Águas Claras." />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Poppins', 'sans-serif'],
+              montserrat: ['Montserrat', 'sans-serif'],
+            },
+            colors: {
+              vet: {
+                primary: '#8B5E5E', // Rose/Mauve da Logo
+                primaryLight: '#A67C7D',
+                secondary: '#FFFFFF', 
+                accent: '#A67C7D', // Dusty Rose
+                text: '#4A2C2C', // Rose Brown Escuro para leitura
+                light: '#FDF7F7', // Nude Rosado Claríssimo
+              }
+            },
+            borderRadius: {
+              '4xl': '2rem',
+              '5xl': '3rem',
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      body {
+        background-color: #FFFFFF;
+        color: #4A2C2C;
+        font-family: 'Poppins', sans-serif;
+        scroll-behavior: smooth;
+        overflow-x: hidden;
+      }
+      
+      .text-gradient-vet {
+        background: linear-gradient(135deg, #8B5E5E 0%, #A67C7D 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .btn-primary {
+        background: #8B5E5E;
+        color: white;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+      .btn-primary:hover {
+        background: #A67C7D;
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px -5px rgba(139, 94, 94, 0.3);
+      }
+      
+      .hoverline {
+        position: relative;
+      }
+      .hoverline::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 3px;
+        bottom: -6px;
+        left: 0;
+        background-color: #A67C7D;
+        transition: width 0.3s ease;
+        border-radius: 2px;
+      }
+      .hoverline:hover::after {
+        width: 100%;
+      }
+
+      .glass-header {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid rgba(166, 124, 125, 0.1);
+      }
+
+      .card-shadow {
+        box-shadow: 0 20px 50px rgba(139, 94, 94, 0.05);
+      }
+
+      ::-webkit-scrollbar { width: 6px; }
+      ::-webkit-scrollbar-track { background: #fdf7f7; }
+      ::-webkit-scrollbar-thumb { background: #A67C7D; border-radius: 10px; }
+      
+      @keyframes float {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-15px); }
+        100% { transform: translateY(0px); }
+      }
+      .animate-float { animation: float 6s ease-in-out infinite; }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "react": "https://esm.sh/react@^19.2.4",
+    "lucide-react": "https://esm.sh/lucide-react@^0.563.0",
+    "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@^2.93.3",
+    "jspdf": "https://esm.sh/jspdf@^2.5.1",
+    "jspdf-autotable": "https://esm.sh/jspdf-autotable@^3.8.2"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

@@ -1,0 +1,7 @@
+{
+  "name": "Romana 4",
+  "description": "Especialista em Mega Hair e Mechas em Brasília",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
